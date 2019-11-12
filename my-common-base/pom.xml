@@ -11,14 +11,6 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>my-common-base</artifactId>
 
-    <dependencies>
 
-        <!-- 日志 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-log4j2</artifactId>
-        </dependency>
-
-    </dependencies>
 
 </project>
