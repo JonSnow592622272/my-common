@@ -11,5 +11,16 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>my-common-web</artifactId>
 
+    <dependencies>
+        <!--内部模块引用↓↓↓↓↓-->
+        <dependency>
+            <groupId>com.shotgun</groupId>
+            <artifactId>my-common-base</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!--内部模块引用↑↑↑↑↑-->
+
+    </dependencies>
 
 </project>
