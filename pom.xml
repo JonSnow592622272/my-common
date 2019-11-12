@@ -10,6 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.shotgun</groupId>
     <artifactId>my-common</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -19,6 +20,7 @@
         <module>my-common-base</module>
         <module>my-common-web</module>
         <module>my-common-service</module>
+        <module>my-common-weservice</module>
     </modules>
 
 
