@@ -1,4 +1,4 @@
-package com.shotgun.mycommon.base.util;
+package com.shotgun.mycommon.service.util;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
