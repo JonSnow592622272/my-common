@@ -12,6 +12,7 @@
     <modules>
         <module>my-common-base</module>
         <module>my-common-web</module>
+        <module>my-common-service</module>
     </modules>
 
 
