@@ -3,11 +3,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.1.RELEASE</version>
-	</parent>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.9.RELEASE</version>
+    </parent>
 
 
     <modelVersion>4.0.0</modelVersion>
@@ -27,15 +27,17 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <spring-cloud.version>Hoxton.RC2</spring-cloud.version>
+        <spring-cloud.version>Greenwich.SR3</spring-cloud.version>
+        <mysql.version>5.1.46</mysql.version>
+        <spring-cloud-nacos.version>0.2.1.RELEASE</spring-cloud-nacos.version>
     </properties>
-
 
 
     <dependencyManagement>
         <!--依赖管理-->
         <dependencies>
 
+            <!--springcloud-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -44,10 +46,11 @@
                 <scope>import</scope>
             </dependency>
 
+            <!--mysql-->
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>5.1.46</version>
+                <version>${mysql.version}</version>
                 <exclusions>
                     <exclusion>
                         <artifactId>protobuf-java</artifactId>
@@ -55,6 +58,20 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+
+            <!--阿里巴巴nacos配置-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+                <version>${spring-cloud-nacos.version}</version>
+            </dependency>
+            <!--阿里巴巴nacos注册中心-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+                <version>${spring-cloud-nacos.version}</version>
+            </dependency>
+
 
         </dependencies>
 
