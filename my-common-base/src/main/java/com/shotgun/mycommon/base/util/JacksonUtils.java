@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 public class JacksonUtils {
 
@@ -46,8 +45,13 @@ public class JacksonUtils {
 		}
 	}
 
-	/** json转对象（支持集合等所有类型） */
-	public static <T> T readValues(String json, TypeReference<T> valueTypeRef) {
+
+	/**
+	 * @author wulm
+	 * @desc json转对象（支持集合等所有类型）
+	 * 比如：List<Aaa> o = OBJECT_MAPPER.readValue(json, new TypeReference<List<Aaa>>() {});
+	 **/
+	public static <T> T readValue(String json, TypeReference<T> valueTypeRef) {
 
 		try {
 			return OBJECT_MAPPER.readValue(json, valueTypeRef);
@@ -56,14 +60,6 @@ public class JacksonUtils {
 		}
 	}
 
-	public static <T> List<T> readValues(String json, Class<T> valueType) {
-
-		try {
-			return OBJECT_MAPPER.readValue(json, new TypeReference<List<T>>(){});
-		} catch (IOException e) {
-			throw new IllegalArgumentException(e);
-		}
-	}
 
 
 //	/**
