@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 public class JacksonUtils {
 
@@ -46,7 +47,7 @@ public class JacksonUtils {
 	}
 
 	/** json转对象（支持集合等所有类型） */
-	public static <T> T readValue(String json, TypeReference<T> valueTypeRef) {
+	public static <T> T readValues(String json, TypeReference<T> valueTypeRef) {
 
 		try {
 			return OBJECT_MAPPER.readValue(json, valueTypeRef);
@@ -55,37 +56,47 @@ public class JacksonUtils {
 		}
 	}
 
-	/**
-	 *
-	 * @desc 测试
-	 * @auth wulm
-	 * @date 2018年6月20日 上午11:12:14
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		/* "hello", 666, new Date() */
-		Aaa a = new Aaa();
-		a.setA_id("aaa");
+	public static <T> List<T> readValues(String json, Class<T> valueType) {
 
-		System.out.println(JacksonUtils.writeValueAsString(a));
-
-		Aaa b = JacksonUtils.readValue("{\"a_id\":\"aaa\",\"b\":\"bbb\",\"c\":\"ccc\"}", Aaa.class);
-		System.out.println(JacksonUtils.writeValueAsString(b));
-
-
-	}
-
-	public static class Aaa {
-		private String a_id;
-
-		public String getA_id() {
-			System.out.println("hahahhahhhhhhhhhhhhhhhhhh");
-			return a_id;
-		}
-
-		public void setA_id(String a_id) {
-			this.a_id = a_id;
+		try {
+			return OBJECT_MAPPER.readValue(json, new TypeReference<List<T>>(){});
+		} catch (IOException e) {
+			throw new IllegalArgumentException(e);
 		}
 	}
+
+
+//	/**
+//	 *
+//	 * @desc 测试
+//	 * @auth wulm
+//	 * @date 2018年6月20日 上午11:12:14
+//	 * @param args
+//	 */
+//	public static void main(String[] args) {
+//		/* "hello", 666, new Date() */
+//		Aaa a = new Aaa();
+//		a.setA_id("aaa");
+//
+//		System.out.println(JacksonUtils.writeValueAsString(a));
+//
+//		Aaa b = JacksonUtils.readValue("{\"a_id\":\"aaa\",\"b\":\"bbb\",\"c\":\"ccc\"}", Aaa.class);
+//		System.out.println(JacksonUtils.writeValueAsString(b));
+//
+//
+//	}
+//
+//	public static class Aaa {
+//		private String a_id;
+//
+//		public String getA_id() {
+//			System.out.println("hahahhahhhhhhhhhhhhhhhhhh");
+//			return a_id;
+//		}
+//
+//		public void setA_id(String a_id) {
+//			this.a_id = a_id;
+//		}
+//	}
 
 }
