@@ -1,13 +1,11 @@
 package com.shotgun.mycommon.service.base;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import java.util.List;
 
-public interface MyIService<U> extends IService<U> {
+public interface MyIService<T> extends IService<T> {
 
-    default List<U> testHaha() {
-        return list();
-    }
+    IPage<T> testGet10();
 
 
 }
