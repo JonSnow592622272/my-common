@@ -1,10 +1,15 @@
 package com.shotgun.mycommon.base.util;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.BeanDescription;
+import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationConfig;
@@ -52,7 +57,13 @@ public class JacksonUtilsSpringmvc {
 						gen.writeString(value.value());
 						gen.writeEndObject();
 					}
-				});
+				}).addDeserializer(IPage.class, new JsonDeserializer<IPage>() {
+            @Override
+            public IPage deserialize(JsonParser p,
+                    DeserializationContext ctxt) throws IOException, JsonProcessingException {
+                return p.readValueAs(Page.class);
+            }
+        });
 		OBJECT_MAPPER.registerModule(simpleModule);
 		// jackson序列化处理
 		OBJECT_MAPPER.setSerializerFactory(
@@ -88,7 +99,7 @@ public class JacksonUtilsSpringmvc {
 	}
 
 	/**
-	 * 
+	 *
 	 * @desc jackson序列化处理
 	 * @author wulm
 	 * @date 2018年6月20日 上午11:08:08
