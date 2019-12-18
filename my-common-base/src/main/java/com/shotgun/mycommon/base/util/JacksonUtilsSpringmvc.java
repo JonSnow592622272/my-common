@@ -58,12 +58,12 @@ public class JacksonUtilsSpringmvc {
 						gen.writeEndObject();
 					}
 				}).addDeserializer(IPage.class, new JsonDeserializer<IPage>() {
-            @Override
-            public IPage deserialize(JsonParser p,
-                    DeserializationContext ctxt) throws IOException, JsonProcessingException {
-                return p.readValueAs(Page.class);
-            }
-        });
+			@Override
+			public IPage deserialize(JsonParser p,
+					DeserializationContext ctxt) throws IOException, JsonProcessingException {
+				return p.readValueAs(Page.class);
+			}
+		});
 		OBJECT_MAPPER.registerModule(simpleModule);
 		// jackson序列化处理
 		OBJECT_MAPPER.setSerializerFactory(

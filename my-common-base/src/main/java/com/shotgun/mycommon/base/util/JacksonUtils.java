@@ -1,9 +1,15 @@
 package com.shotgun.mycommon.base.util;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -24,6 +30,20 @@ public class JacksonUtils {
 		// jackson配置*****************************************
 		// jackson忽略不存在的属性
 		OBJECT_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+
+		// 防止js中Long类型丢失精度，增加枚举映射
+		SimpleModule simpleModule = new SimpleModule();
+
+		simpleModule.addDeserializer(IPage.class, new JsonDeserializer<IPage>() {
+			@Override
+			public IPage deserialize(JsonParser p,
+					DeserializationContext ctxt) throws IOException, JsonProcessingException {
+				return p.readValueAs(Page.class);
+			}
+		});
+
+		OBJECT_MAPPER.registerModule(simpleModule);
 
 	}
 
