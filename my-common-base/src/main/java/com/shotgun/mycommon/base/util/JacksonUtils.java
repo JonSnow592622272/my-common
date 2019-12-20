@@ -16,70 +16,75 @@ import java.text.SimpleDateFormat;
 
 public class JacksonUtils {
 
-	/** 统一默认时间格式 */
-	public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    /**
+     * 统一默认时间格式
+     */
+    public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-	/**
-	 * final ObjectMapper mapper = new ObjectMapper(); // can use static singleton,
-	 * inject: just make sure to reuse!
-	 */
-	public static final ObjectMapper OBJECT_MAPPER;
-	static {
-		OBJECT_MAPPER = new ObjectMapper().setDateFormat(new SimpleDateFormat(DEFAULT_DATE_FORMAT));
+    /**
+     * final ObjectMapper mapper = new ObjectMapper(); // can use static singleton,
+     * inject: just make sure to reuse!
+     */
+    public static final ObjectMapper OBJECT_MAPPER;
 
-		// jackson配置*****************************************
-		// jackson忽略不存在的属性
-		OBJECT_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    static {
+        OBJECT_MAPPER = new ObjectMapper().setDateFormat(new SimpleDateFormat(DEFAULT_DATE_FORMAT));
 
-
-		// 防止js中Long类型丢失精度，增加枚举映射
-		SimpleModule simpleModule = new SimpleModule();
-
-		simpleModule.addDeserializer(IPage.class, new JsonDeserializer<IPage>() {
-			@Override
-			public IPage deserialize(JsonParser p,
-					DeserializationContext ctxt) throws IOException, JsonProcessingException {
-				return p.readValueAs(Page.class);
-			}
-		});
-
-		OBJECT_MAPPER.registerModule(simpleModule);
-
-	}
-
-	/** 对象转json */
-	public static String writeValueAsString(Object obj) {
-		try {
-			return OBJECT_MAPPER.writeValueAsString(obj);
-		} catch (JsonProcessingException e) {
-			throw new IllegalArgumentException(e);
-		}
-	}
-
-	/** json转对象（单个） */
-	public static <T> T readValue(String json, Class<T> valueType) {
-		try {
-			return OBJECT_MAPPER.readValue(json, valueType);
-		} catch (IOException e) {
-			throw new IllegalArgumentException(e);
-		}
-	}
+        // jackson配置*****************************************
+        // jackson忽略不存在的属性
+        OBJECT_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 
-	/**
-	 * @author wulm
-	 * @desc json转对象（支持集合等所有类型）
-	 * 比如：List<Aaa> o = OBJECT_MAPPER.readValue(json, new TypeReference<List<Aaa>>() {});
-	 **/
-	public static <T> T readValue(String json, TypeReference<T> valueTypeRef) {
+        SimpleModule simpleModule = new SimpleModule();
 
-		try {
-			return OBJECT_MAPPER.readValue(json, valueTypeRef);
-		} catch (IOException e) {
-			throw new IllegalArgumentException(e);
-		}
-	}
+        simpleModule.addDeserializer(IPage.class, new JsonDeserializer<IPage>() {
+            @Override
+            public IPage deserialize(JsonParser p,
+                    DeserializationContext ctxt) throws IOException, JsonProcessingException {
+                return p.readValueAs(Page.class);
+            }
+        });
 
+        OBJECT_MAPPER.registerModule(simpleModule);
+
+    }
+
+    /**
+     * 对象转json
+     */
+    public static String writeValueAsString(Object obj) {
+        try {
+            return OBJECT_MAPPER.writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    /**
+     * json转对象（单个）
+     */
+    public static <T> T readValue(String json, Class<T> valueType) {
+        try {
+            return OBJECT_MAPPER.readValue(json, valueType);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+
+    /**
+     * @author wulm
+     * @desc json转对象（支持集合等所有类型）
+     * 比如：List<Aaa> o = OBJECT_MAPPER.readValue(json, new TypeReference<List<Aaa>>() {});
+     **/
+    public static <T> T readValue(String json, TypeReference<T> valueTypeRef) {
+
+        try {
+            return OBJECT_MAPPER.readValue(json, valueTypeRef);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
 
 
 //	/**
