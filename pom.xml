@@ -39,6 +39,28 @@
         <!--依赖管理-->
         <dependencies>
 
+            <!--内部模块版本管理↓↓↓↓↓-->
+            <dependency>
+                <groupId>com.shotgun</groupId>
+                <artifactId>my-common-base</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.shotgun</groupId>
+                <artifactId>my-common-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.shotgun</groupId>
+                <artifactId>my-common-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--内部模块版本管理↑↑↑↑↑-->
+
+
+
             <!--springcloud-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
