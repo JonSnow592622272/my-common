@@ -21,7 +21,7 @@
         <module>my-common-base</module>
         <module>my-common-web</module>
         <module>my-common-service</module>
-        <module>my-common-weservice</module>
+        <module>my-common-webandservice</module>
     </modules>
 
 

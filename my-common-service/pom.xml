@@ -16,7 +16,7 @@
         <!--内部模块引用↓↓↓↓↓-->
         <dependency>
             <groupId>com.shotgun</groupId>
-            <artifactId>my-common-weservice</artifactId>
+            <artifactId>my-common-webandservice</artifactId>
             <version>${project.version}</version>
         </dependency>
 
