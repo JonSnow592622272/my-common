@@ -22,6 +22,7 @@ public class MyServiceImpl<M extends MyBaseMapper<T>, T> extends ServiceImpl<M, 
     @Override
     public IPage<T> testGet10() {
 
+        //查询分页数据
         IPage<T> page = page(new Page<>(1, 10));
         System.out.println("testGet10:::" + JacksonUtils.writeValueAsString(page));
         return page;
