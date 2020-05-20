@@ -21,7 +21,7 @@ public class MyServiceImpl<M extends MyBaseMapper<T>, T> extends ServiceImpl<M, 
     //消息一部：对象json转给消息中间件，消息消费调用原提供接口方（缺点：跨数据源多步操作无事务控制）
 
     @Override
-    public IPage<T> testGet10() {
+    public IPage<T> testGet10(String a, String b) {
 
         //查询分页数据
         IPage<T> page = page(new Page<>(1, 10));

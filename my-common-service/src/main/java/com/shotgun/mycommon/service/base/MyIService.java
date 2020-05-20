@@ -28,7 +28,7 @@ public interface MyIService<T> /*extends IService<T> 这里注释掉是为了不
         }
     };
 
-    IPage<T> testGet10();
+    IPage<T> testGet10(String a, String b);
 
     /**
      * 单条插入
