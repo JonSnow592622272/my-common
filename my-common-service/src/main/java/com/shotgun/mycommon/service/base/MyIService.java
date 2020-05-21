@@ -11,7 +11,7 @@ import java.util.Collections;
 
 /**
  * @author wulm
- * 这里不要使用接口默认实现，否则无法在serviceApi中使用同名接口
+ * 公共方法命名规范：增删改查：insert,update,delete,get （开头使用base作为前缀标识为公共方法）
  **/
 public interface MyIService<T> /*extends IService<T> 这里注释掉是为了不暴露给其他service使用，避免其他service实现类调用里面的方法来绕过逻辑验证*/ {
     Code SUCCESS_CODE = new Code() {
@@ -31,42 +31,42 @@ public interface MyIService<T> /*extends IService<T> 这里注释掉是为了不
         }
     };
 
-    IPage<T> testGet10(String a, String b);
+    IPage<T> baseTestGet10(String a, String b);
 
     /**
      * 单条插入
      **/
-    default ResultInfo insert(T record){
-        return insertBatch(Collections.singletonList(record));
+    default ResultInfo baseInsert(T record) {
+        return baseInsertBatch(Collections.singletonList(record));
     }
 
     /**
      * 批量插入
      **/
     @Transactional(rollbackFor = Exception.class)
-    default ResultInfo insertBatch(T... records){
-        return insertBatch(Arrays.asList(records));
+    default ResultInfo baseInsertBatch(T... records) {
+        return baseInsertBatch(Arrays.asList(records));
     }
 
     /**
      * 批量插入
      **/
     @Transactional(rollbackFor = Exception.class)
-    default ResultInfo insertBatch(Collection<T> records){
-        return insertBatchUsePage(1000, records);
+    default ResultInfo baseInsertBatch(Collection<T> records) {
+        return baseInsertBatchUsePage(1000, records);
     }
 
     /**
      * 分页批量插入
      **/
     @Transactional(rollbackFor = Exception.class)
-    default ResultInfo insertBatchUsePage(int batchSize, T... records){
-        return insertBatchUsePage(batchSize, Arrays.asList(records));
+    default ResultInfo baseInsertBatchUsePage(int batchSize, T... records) {
+        return baseInsertBatchUsePage(batchSize, Arrays.asList(records));
     }
 
     /**
      * 分页批量插入
      **/
-    ResultInfo insertBatchUsePage(int batchSize, Collection<T> records);
+    ResultInfo baseInsertBatchUsePage(int batchSize, Collection<T> records);
 
 }
