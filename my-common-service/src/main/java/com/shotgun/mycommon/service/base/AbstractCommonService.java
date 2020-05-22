@@ -13,8 +13,13 @@ import java.util.Collection;
  * @author wulm
  * 所有serviceImpl的基类，用于存放公共基础方法。不能在XXXServiceApi中创建与当该类方法同名接口，否则会引起feign的验证问题
  **/
-public class MyServiceImpl<M extends MyBaseMapper<T>, T> extends ServiceImpl<M, T> implements MyIService<T> {
+public abstract class AbstractCommonService<M extends MyBaseMapper<T>, T> extends ServiceImpl<M, T> implements CommonService<T> {
 
+    /**
+     * 返回成功状态码
+     * @return 成功状态码
+     **/
+    protected abstract ResultInfo success();
 
     //消息一部：对象json转给消息中间件，消息消费调用原提供接口方（缺点：跨数据源多步操作无事务控制）
 
@@ -32,7 +37,7 @@ public class MyServiceImpl<M extends MyBaseMapper<T>, T> extends ServiceImpl<M, 
     @Override
     public ResultInfo baseInsertBatchUsePage(int batchSize, Collection<T> records) {
         saveBatch(records, batchSize);
-        return new ResultInfo<>(SUCCESS_CODE);
+        return success();
     }
 
 }

@@ -40,6 +40,21 @@ public class ResultInfo<E> implements Serializable {
     private ResultInfo() {
     }
 
+
+    public ResultInfo(Code code) {
+        this.systemCode = code.getSystemCode();
+        this.statusCode = code.getValue();
+        this.msg = code.getText();
+    }
+
+
+    public ResultInfo(Code code, E data) {
+        this.systemCode = code.getSystemCode();
+        this.statusCode = code.getValue();
+        this.msg = code.getText();
+        this.data = data;
+    }
+
     public ResultInfo(Code... errorCodes) {
         this.systemCode = errorCodes[0].getSystemCode();
         this.statusCode = STATUS_CODE_DIVIDING;
@@ -53,17 +68,16 @@ public class ResultInfo<E> implements Serializable {
         this.data = (E) data;
     }
 
-    public ResultInfo(Code code) {
-        this.systemCode = code.getSystemCode();
-        this.statusCode = code.getValue();
-        this.msg = code.getText();
+    public static ResultInfo of(Code code) {
+        return new ResultInfo(code);
     }
 
-    public ResultInfo(Code code, E data) {
-        this.systemCode = code.getSystemCode();
-        this.statusCode = code.getValue();
-        this.msg = code.getText();
-        this.data = data;
+    public static <Z> ResultInfo<Z> of(Code code, Z data) {
+        return new ResultInfo<>(code, data);
+    }
+
+    public static ResultInfo of(Code... errorCodes) {
+        return new ResultInfo(errorCodes);
     }
 
     /*是否失败*/
