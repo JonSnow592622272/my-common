@@ -1,3 +1,6 @@
+/*
+经过验证，feign是支持集合校验的
+
 package com.shotgun.mycommon.base.base.valid;
 
 import com.shotgun.mycommon.base.base.entity.BombVo;
@@ -8,11 +11,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+*/
 /**
  * 用于支持验证器验证的集合类（是Collection的实现类，当成ArrayList和Hashset类似使用）
  *
  * @author wulm
- **/
+ **//*
+
 public class ValidCollection<E> extends BombVo implements Collection<E> {
 
     @Valid
@@ -27,11 +32,13 @@ public class ValidCollection<E> extends BombVo implements Collection<E> {
         this.collection = collection;
     }
 
-    /**
+    */
+/**
      * 生成一个默认的集合(ArrayList)
      *
      * @author wulm
-     **/
+     **//*
+
     public static ValidCollection of() {
         return new ValidCollection();
     }
@@ -113,3 +120,4 @@ public class ValidCollection<E> extends BombVo implements Collection<E> {
         collection.clear();
     }
 }
+*/
