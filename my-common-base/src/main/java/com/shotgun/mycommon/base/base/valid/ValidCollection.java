@@ -1,5 +1,7 @@
 /*
 经过验证，feign是支持集合校验的
+//ssssssssssstest
+
 
 package com.shotgun.mycommon.base.base.valid;
 
