@@ -13,7 +13,7 @@ public class ResultInfo<E> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 状态码分界线，大于该值的所有状态都表示错误
+     * 不确定状态（用于批量操作，比如全部成功、部分成功、全部失败），大于该值的所有状态都表示错误
      */
     private static final int STATUS_CODE_DIVIDING = 1;
 
@@ -57,8 +57,9 @@ public class ResultInfo<E> implements Serializable {
 
     public ResultInfo(Code... errorCodes) {
         this.systemCode = errorCodes[0].getSystemCode();
+        //不确定状态码
         this.statusCode = STATUS_CODE_DIVIDING;
-        this.msg = "操作成功";
+        this.msg = "";
 
         Map<String, Object> data = new HashMap<>();
         data.put("systemCodes", Stream.of(errorCodes).map(Code::getSystemCode).collect(Collectors.toList()));
