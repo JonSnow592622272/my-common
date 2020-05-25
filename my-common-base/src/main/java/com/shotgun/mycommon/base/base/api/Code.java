@@ -1,4 +1,4 @@
-package com.shotgun.mycommon.base.base;
+package com.shotgun.mycommon.base.base.api;
 
 
 public interface Code {

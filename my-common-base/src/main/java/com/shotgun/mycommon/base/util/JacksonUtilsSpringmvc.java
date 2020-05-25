@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.shotgun.mycommon.base.base.ViewEnum;
+import com.shotgun.mycommon.base.base.api.ViewEnum;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package com.shotgun.mycommon.base.base;
+package com.shotgun.mycommon.base.base.valid;
 
 public interface Goups {
     interface Insert {}

@@ -8,9 +8,9 @@ import java.util.List;
 /**
  * @author wulm
  **/
-public interface MyBaseMapper<U> extends BaseMapper<U> {
+public interface BombMapper<T> extends BaseMapper<T> {
 
-    default List<U> test() {
+    default List<T> test() {
         return selectList(new LambdaQueryWrapper<>());
     }
 

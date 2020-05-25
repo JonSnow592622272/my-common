@@ -1,4 +1,6 @@
-package com.shotgun.mycommon.base.base.entity;
+package com.shotgun.mycommon.base.base.valid;
+
+import com.shotgun.mycommon.base.base.entity.BombVo;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -11,7 +13,7 @@ import java.util.Iterator;
  *
  * @author wulm
  **/
-public class ValidCollection<E> implements Collection<E> {
+public class ValidCollection<E> extends BombVo implements Collection<E> {
 
     @Valid
     @NotEmpty
@@ -27,13 +29,14 @@ public class ValidCollection<E> implements Collection<E> {
 
     /**
      * 生成一个默认的集合(ArrayList)
+     *
      * @author wulm
      **/
-    public static ValidCollection of(){
+    public static ValidCollection of() {
         return new ValidCollection();
     }
 
-    public static<Z> ValidCollection<Z> of(Collection<Z> c){
+    public static <Z> ValidCollection<Z> of(Collection<Z> c) {
         return new ValidCollection(c);
     }
 
