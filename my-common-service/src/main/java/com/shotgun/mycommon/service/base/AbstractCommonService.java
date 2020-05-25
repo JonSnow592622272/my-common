@@ -21,7 +21,7 @@ public abstract class AbstractCommonService<M extends MyBaseMapper<T>, T> extend
      **/
     protected abstract ResultInfo success();
 
-    //消息一部：对象json转给消息中间件，消息消费调用原提供接口方（缺点：跨数据源多步操作无事务控制）
+    //消息一部：对象json转给消息中间件，消息消费调用原提供接口方
 
     @Override
     public IPage<T> baseTestGet10(String a, String b) {
