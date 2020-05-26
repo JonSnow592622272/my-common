@@ -15,8 +15,7 @@ import java.util.Collections;
  * 所有serviceImpl的基类，用于存放公共基础方法
  * 公共方法命名规范：增删改查：insert,update,delete,get （开头使用base作为前缀标识为公共方法）
  **/
-public interface BombService<T> extends BombApi<T> /*extends IService<T>这里注释掉是为了不暴露给其他service使用，避免其他service
-实现类调用里面的方法来绕过逻辑验证*/ {
+public interface BombService<T> extends BombApi<T> /*extends IService<T>这里注释掉是为了不暴露给其他service使用，避免其他service实现类调用里面的方法来绕过逻辑验证*/ {
 
     /**
      * 返回成功状态码
