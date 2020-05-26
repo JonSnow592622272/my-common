@@ -17,7 +17,9 @@ public interface BombApi<T> {
      * @param record 数据
      * @return 结果
      **/
-    ResultInfo insert(T record);
+    @PostMapping("/insert")
+    @Validated(Goups.Insert.class)
+    ResultInfo insert(@RequestBody @Valid T record);
 
     /**
      * 批量插入
@@ -25,7 +27,9 @@ public interface BombApi<T> {
      * @param records 数据
      * @return 结果
      **/
-    ResultInfo insertBatch(T... records);
+    @PostMapping("/insertBatch")
+    @Validated(Goups.Insert.class)
+    ResultInfo insertBatch(@RequestBody @Valid T... records);
 
     /**
      * 批量插入
@@ -33,25 +37,10 @@ public interface BombApi<T> {
      * @param records 数据
      * @return 结果
      **/
-    ResultInfo insertBatch(Collection<T> records);
+    @PostMapping("/insertBatchCol")
+    @Validated(Goups.Insert.class)
+    ResultInfo insertBatch(@RequestBody @Valid Collection<T> records);
 
-    /**
-     * 分页批量插入
-     *
-     * @param batchSize 每批数量大小
-     * @param records   数据
-     * @return 结果
-     **/
-    ResultInfo insertBatchUsePage(int batchSize, T... records);
-
-    /**
-     * 分页批量插入
-     *
-     * @param batchSize 每批数量大小
-     * @param records   数据
-     * @return 结果
-     **/
-    ResultInfo baseInsertBatchUsePage(int batchSize, Collection<T> records);
 
 
 
