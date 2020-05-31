@@ -59,12 +59,12 @@ public interface BombApi<T> {
     ResultInfo insertBatch2(@RequestBody @Valid Collection<T> records);
 
     @PostMapping("/insertBatch77777")
-    @Validated(Goups.Update.class)
+    @Validated(Goups.UpdateById.class)
     ResultInfo insertBatch77777(@RequestBody @Valid Collection<T> records);
 
 
     @PostMapping("/baseInsert66666")
-    @Validated(Goups.Update.class)
+    @Validated(Goups.UpdateById.class)
     ResultInfo baseInsert66666(@RequestBody @Valid T record);
 
 }
