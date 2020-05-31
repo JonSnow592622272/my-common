@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.Collections;
 
 @Validated
 public interface BombApi<T> {
@@ -19,7 +20,9 @@ public interface BombApi<T> {
      **/
     @PostMapping("/insert")
     @Validated(Goups.Insert.class)
-    ResultInfo insert(@RequestBody @Valid T record);
+    default ResultInfo insert(@RequestBody @Valid T record) {
+        return insertBatch(Collections.singletonList(record));
+    }
 
     /**
      * 批量插入
