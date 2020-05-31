@@ -40,10 +40,6 @@ public interface BombService<T> extends BombApi<T> /*extends IService<T>这里�
      **/
     ResultInfo success();
 
-    IPage<T> baseTestGet10(String a, String b);
-
-
-
     /**
      * 批量插入分页，所有插入统一最终入口
      *
@@ -52,5 +48,7 @@ public interface BombService<T> extends BombApi<T> /*extends IService<T>这里�
      * @return 结果
      **/
     ResultInfo baseInsertBatchUsePage(int batchSize, Collection<T> records);
+
+    IPage<T> baseTestGet10(String a, String b);
 
 }

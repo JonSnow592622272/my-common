@@ -13,8 +13,16 @@ import java.util.Collection;
  * @author wulm
  **/
 public abstract class AbstractBombService<M extends BombMapper<T>, T> extends ServiceImpl<M, T> implements BombService<T> {
+    //消息异步：对象json转给消息中间件，消息消费调用原提供接口方
 
-    //消息一部：对象json转给消息中间件，消息消费调用原提供接口方
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public ResultInfo baseInsertBatchUsePage(int batchSize, Collection<T> records) {
+        //所有插入统一最终入口
+        saveBatch(records, batchSize);
+        return success();
+    }
 
     @Override
     public IPage<T> baseTestGet10(String a, String b) {
@@ -25,13 +33,5 @@ public abstract class AbstractBombService<M extends BombMapper<T>, T> extends Se
         return page;
     }
 
-
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public ResultInfo baseInsertBatchUsePage(int batchSize, Collection<T> records) {
-        //所有插入统一最终入口
-        saveBatch(records, batchSize);
-        return success();
-    }
 
 }
