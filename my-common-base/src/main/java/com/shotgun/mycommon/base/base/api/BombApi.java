@@ -47,7 +47,7 @@ public interface BombApi<T> {
 
 
 
-    ////////////////////////
+    ////////////////////////↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑所有api基础方法，已定好.....
 
 
     @PostMapping("/insertBatch2")
