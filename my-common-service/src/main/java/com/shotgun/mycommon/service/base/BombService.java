@@ -30,7 +30,7 @@ public interface BombService<T> extends BombApi<T> /*extends IService<T>这里�
     @Transactional(rollbackFor = Exception.class)
     @Override
     default ResultInfo insertBatch(T... records) {
-        return insertBatch(Arrays.asList(records));
+        return insertBatchUsePage(1000, records);
     }
 
     @Transactional(rollbackFor = Exception.class)
