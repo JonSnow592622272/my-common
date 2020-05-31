@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
 /**
  * 基础接口的url以base开头，后面用简写，并非方法名，比如:@PostMapping("/basei")
@@ -25,9 +25,7 @@ public interface BombApi<T> {
      **/
     @PostMapping("/basei")
     @Validated(Goups.Insert.class)
-    default ResultInfo insert(@RequestBody @Valid T record) {
-        return insertBatch(Collections.singletonList(record));
-    }
+    ResultInfo insert(@RequestBody @Valid T record);
 
     /**
      * 批量插入
@@ -35,19 +33,23 @@ public interface BombApi<T> {
      * @param records 数据
      * @return 结果
      **/
-    @PostMapping("/baseib")
-    @Validated(Goups.Insert.class)
-    ResultInfo insertBatch(@RequestBody @Valid T... records);
-
-    /**
-     * 批量插入
-     *
-     * @param records 数据
-     * @return 结果
-     **/
-    @PostMapping("/baseib2")
+    @PostMapping("/baseibCol")
     @Validated(Goups.Insert.class)
     ResultInfo insertBatch(@RequestBody @Valid Collection<T> records);
+
+    /**
+     * 批量插入
+     *
+     * @param records 数据
+     * @return 结果
+     **/
+    @PostMapping("/baseibArr")
+    @Validated(Goups.Insert.class)
+    default ResultInfo insertBatch(@RequestBody @Valid T... records) {
+        return insertBatch(Arrays.asList(records));
+    }
+
+
 
 
 }

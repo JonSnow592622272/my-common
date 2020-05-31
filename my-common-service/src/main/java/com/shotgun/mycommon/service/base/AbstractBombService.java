@@ -29,6 +29,7 @@ public abstract class AbstractBombService<M extends BombMapper<T>, T> extends Se
     @Transactional(rollbackFor = Exception.class)
     @Override
     public ResultInfo baseInsertBatchUsePage(int batchSize, Collection<T> records) {
+        //所有插入统一最终入口
         saveBatch(records, batchSize);
         return success();
     }

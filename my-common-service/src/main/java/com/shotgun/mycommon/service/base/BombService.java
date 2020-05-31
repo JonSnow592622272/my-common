@@ -5,8 +5,8 @@ import com.shotgun.mycommon.base.base.api.BombApi;
 import com.shotgun.mycommon.base.base.api.ResultInfo;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * @author wulm
@@ -15,6 +15,23 @@ import java.util.Collection;
  **/
 public interface BombService<T> extends BombApi<T> /*extends IService<T>这里注释掉是为了不暴露给其他service使用，避免其他service
 实现类调用里面的方法来绕过逻辑验证*/ {
+
+    //↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓Api默认实现↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
+
+    @Override
+    default ResultInfo insert(T record) {
+        //单条数据不使用事务
+        return insertBatch(Collections.singletonList(record));
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    default ResultInfo insertBatch(Collection<T> records) {
+        return baseInsertBatchUsePage(1000, records);
+    }
+
+    //↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑Api默认实现↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
     /**
      * 返回成功状态码
@@ -26,32 +43,9 @@ public interface BombService<T> extends BombApi<T> /*extends IService<T>这里�
     IPage<T> baseTestGet10(String a, String b);
 
 
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    default ResultInfo insertBatch(T... records) {
-        return insertBatchUsePage(1000, records);
-    }
-
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    default ResultInfo insertBatch(Collection<T> records) {
-        return baseInsertBatchUsePage(1000, records);
-    }
 
     /**
-     * 分页批量插入
-     *
-     * @param batchSize 每批数量大小
-     * @param records   数据
-     * @return 结果
-     **/
-    @Transactional(rollbackFor = Exception.class)
-    default ResultInfo insertBatchUsePage(int batchSize, T... records) {
-        return baseInsertBatchUsePage(batchSize, Arrays.asList(records));
-    }
-
-    /**
-     * 分页批量插入
+     * 批量插入分页，所有插入统一最终入口
      *
      * @param batchSize 每批数量大小
      * @param records   数据
