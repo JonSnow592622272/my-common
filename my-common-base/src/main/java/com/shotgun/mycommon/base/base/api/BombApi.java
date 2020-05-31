@@ -11,6 +11,42 @@ import java.util.Collection;
 @Validated
 public interface BombApi<T> {
 
+    /**
+     * 单条插入
+     *
+     * @param record 数据
+     * @return 结果
+     **/
+    @PostMapping("/insert")
+    @Validated(Goups.Insert.class)
+    ResultInfo insert(@RequestBody @Valid T record);
+
+    /**
+     * 批量插入
+     *
+     * @param records 数据
+     * @return 结果
+     **/
+    @PostMapping("/insertBatch")
+    @Validated(Goups.Insert.class)
+    ResultInfo insertBatch(@RequestBody @Valid T... records);
+
+    /**
+     * 批量插入
+     *
+     * @param records 数据
+     * @return 结果
+     **/
+    @PostMapping("/insertBatchCol")
+    @Validated(Goups.Insert.class)
+    ResultInfo insertBatch(@RequestBody @Valid Collection<T> records);
+
+
+
+
+    ////////////////////////
+
+
     @PostMapping("/insertBatch2")
     @Validated(Goups.Insert.class)
     ResultInfo insertBatch2(@RequestBody @Valid Collection<T> records);
