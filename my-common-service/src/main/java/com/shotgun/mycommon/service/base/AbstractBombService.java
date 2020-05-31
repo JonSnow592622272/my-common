@@ -33,11 +33,4 @@ public abstract class AbstractBombService<M extends BombMapper<T>, T> extends Se
         return success();
     }
 
-    @Override
-    public ResultInfo insertBatch2(Collection<T> records) {
-
-        System.out.println("records::::" + JacksonUtils.writeValueAsString(records));
-
-        return success();
-    }
 }

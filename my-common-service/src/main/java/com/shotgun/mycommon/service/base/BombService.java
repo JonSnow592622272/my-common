@@ -3,7 +3,6 @@ package com.shotgun.mycommon.service.base;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.shotgun.mycommon.base.base.api.BombApi;
 import com.shotgun.mycommon.base.base.api.ResultInfo;
-import com.shotgun.mycommon.base.util.JacksonUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
@@ -59,19 +58,5 @@ public interface BombService<T> extends BombApi<T> /*extends IService<T>这里�
      * @return 结果
      **/
     ResultInfo baseInsertBatchUsePage(int batchSize, Collection<T> records);
-
-
-    @Override
-    default ResultInfo baseInsert66666(T record) {
-        System.out.println("record::::" + JacksonUtils.writeValueAsString(record));
-        return success();
-    }
-
-    @Transactional
-    @Override
-    default ResultInfo insertBatch77777(Collection<T> records) {
-        System.out.println("ssssssssssssssssssssssssssssssssOK" + JacksonUtils.writeValueAsString(records));
-        return success();
-    }
 
 }
