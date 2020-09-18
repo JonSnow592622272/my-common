@@ -11,6 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>my-common-web</artifactId>
+    <version>${parent.version}</version>
 
     <dependencies>
         <!--内部模块引用↓↓↓↓↓-->
