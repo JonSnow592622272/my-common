@@ -2,9 +2,12 @@ package com.shotgun.mycommon.base.util.http.api;
 
 import org.springframework.util.StringUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public interface HttpClientInterface {
     String GET = "GET";
@@ -86,6 +89,19 @@ public interface HttpClientInterface {
         return execute(GET, url, (Map<String, String>) null, null);
     }
 
+    default String httpPostForm(String url, Map<String, String> headers,
+            Map<String, String> bodyForm) throws UnsupportedEncodingException {
+        String bodyStr;
+        if (bodyForm == null || bodyForm.isEmpty()) {
+            bodyStr = null;
+        } else {
+            //构建form表单传递字符串
+            bodyStr = buildFormString(bodyForm);
+        }
+
+        return httpPostForm(url, headers, bodyStr);
+    }
+
     default String httpPostForm(String url, Map<String, String> headers, String bodyForm) {
         if (headers != null && !HEADER_VAL_CONTENT_TYPE_FORM.equals(headers.get(HEADER_KEY_CONTENT_TYPE))) {
             //手动设置Content-Type，进行覆盖为application/x-www-form-urlencoded
@@ -106,5 +122,40 @@ public interface HttpClientInterface {
         return execute(POST, url, headers, bodyJson);
     }
 
+
+    /**
+     * 构建form表单传递字符串
+     * 例如：aa=%E5%BC%A0%E4%B8%89&bb=%E6%9D%8E%E5%9B%9B&cc=%E7%8E%8B%E4%BA%94
+     *
+     * @param bodyForm 表单参数
+     * @return 表单传递字符串
+     **/
+    public static String buildFormString(Map<String, String> bodyForm) throws UnsupportedEncodingException {
+
+        StringBuilder sb = new StringBuilder();
+        Set<Map.Entry<String, String>> entries = bodyForm.entrySet();
+        boolean isFirst = true;
+        for (Map.Entry<String, String> en : entries) {
+            if (isFirst) {
+                isFirst = false;
+            } else {
+                sb.append("&");
+            }
+            sb.append(en.getKey()).append("=").append(URLEncoder.encode(en.getValue(), "UTF-8"));
+        }
+        return sb.toString();
+    }
+
+    public static void main(String[] args) throws UnsupportedEncodingException {
+        Map<String, String> map = new HashMap<>();
+        map.put("aa", "张三");
+        map.put("bb", "李四");
+        map.put("cc", "王五");
+
+        String s = buildFormString(map);
+
+        System.out.println(s);
+
+    }
 
 }
