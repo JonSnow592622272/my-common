@@ -14,6 +14,7 @@ import okhttp3.internal.Util;
 import okhttp3.internal.http.BridgeInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.util.Collections;
@@ -25,47 +26,56 @@ public class OkHttpClientUtil implements HttpClientInterface {
 
 
     @Override
-    public String execute(String method, String url, Map<String, String> headers,
-            String body) {
-
-        RequestBody requestBody;
+    public String execute(String method, String url, Map<String, String> headers, String body) {
+        Assert.notNull(method, "method不能为空!");
+        Assert.notNull(url, "url不能为空!");
 
         method = method.toUpperCase();
 
+        RequestBody requestBody;
+
         if (GET.equals(method)) {
-            //get请求没有requestBody
-            requestBody = null;
+            //get请求没有requestBody，不传递body
+
             if (headers == null) {
                 headers = Collections.emptyMap();
             }
+            //GET、HEAD请求，requestBody必须为null
+            requestBody = null;
+
         } else {
-            if (headers == null) {
+            //post和其他处理
+
+            if (headers == null || headers.isEmpty()) {
                 //设置默认Content-Type为application/x-www-form-urlencoded
-                headers = Collections.singletonMap(HEADER_KEY_CONTENT_TYPE, HEADER_VAL_CONTENT_TYPE);
+                headers = Collections.singletonMap(HEADER_KEY_CONTENT_TYPE, HEADER_VAL_CONTENT_TYPE_FORM);
             } else if (!headers.containsKey(HEADER_KEY_CONTENT_TYPE)) {
                 //没有Content-Type，设置默认Content-Type为application/x-www-form-urlencoded
-                headers.put(HEADER_KEY_CONTENT_TYPE, HEADER_VAL_CONTENT_TYPE);
+                headers.put(HEADER_KEY_CONTENT_TYPE, HEADER_VAL_CONTENT_TYPE_FORM);
             }
+            //除GET、HEAD请求外，requestBody不能为null
             requestBody = StringUtils.isEmpty(body) ? Util.EMPTY_REQUEST : RequestBody
                     .create(MediaType.get(headers.get(HEADER_KEY_CONTENT_TYPE)), body);
         }
+        //headers和requestBody处理完毕
+        //进行公共处理
 
-        //去除Accept-Encoding、Range头部信息，由okhttp3处理gzip，否则无法自动解析gzip压缩内容
+        //去除Accept-Encoding、Range头部信息，由okhttp3处理gzip，否则无法自动解析gzip压缩内容出现乱码
         headers.remove(HEADER_KEY_ACCEPT_ENCODING);
         headers.remove(HEADER_KEY_RANGE);
 
-
         //创建okHttpClient对象
-        OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new BridgeInterceptor(CookieJar.NO_COOKIES)).build();
 
 
         // 构造Request
-        Request request = new Request.Builder().url(url).method(method, requestBody)
-                .headers(headers.isEmpty() ? new Headers.Builder().build() : Headers.of(headers)).build();
+        Request request = new Request.Builder().url(url)
+                .headers(headers.isEmpty() ? new Headers.Builder().build() : Headers.of(headers))
+                .method(method, requestBody).build();
 
         try {
-            Call call = mOkHttpClient.newCall(request);
+            Call call = okHttpClient.newCall(request);
 
             //发起请求
             Response response = call.execute();
