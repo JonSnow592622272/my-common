@@ -2,6 +2,7 @@ package com.shotgun.mycommon.base.util.http;
 
 import com.shotgun.mycommon.base.util.http.api.HttpClientInterface;
 import okhttp3.Call;
+import okhttp3.CookieJar;
 import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -10,11 +11,11 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okhttp3.internal.Util;
+import okhttp3.internal.http.BridgeInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 
@@ -25,7 +26,7 @@ public class OkHttpClientUtil implements HttpClientInterface {
 
     @Override
     public String execute(String method, String url, Map<String, String> headers,
-            String body) throws IOException {
+            String body) {
 
         RequestBody requestBody;
 
@@ -39,19 +40,24 @@ public class OkHttpClientUtil implements HttpClientInterface {
             }
         } else {
             if (headers == null) {
-                //设置默认Content-Type
-                headers = Collections.singletonMap(CONTENT_TYPE_FLAG, CONTENT_TYPE_DEFAULT);
-            } else if (!headers.containsKey(CONTENT_TYPE_FLAG)) {
-                //设置默认Content-Type
-                headers.put(CONTENT_TYPE_FLAG, CONTENT_TYPE_DEFAULT);
+                //设置默认Content-Type为application/x-www-form-urlencoded
+                headers = Collections.singletonMap(HEADER_KEY_CONTENT_TYPE, HEADER_VAL_CONTENT_TYPE);
+            } else if (!headers.containsKey(HEADER_KEY_CONTENT_TYPE)) {
+                //没有Content-Type，设置默认Content-Type为application/x-www-form-urlencoded
+                headers.put(HEADER_KEY_CONTENT_TYPE, HEADER_VAL_CONTENT_TYPE);
             }
             requestBody = StringUtils.isEmpty(body) ? Util.EMPTY_REQUEST : RequestBody
-                    .create(MediaType.get(headers.get(CONTENT_TYPE_FLAG)), body);
+                    .create(MediaType.get(headers.get(HEADER_KEY_CONTENT_TYPE)), body);
         }
+
+        //去除Accept-Encoding、Range头部信息，由okhttp3处理gzip，否则无法自动解析gzip压缩内容
+        headers.remove(HEADER_KEY_ACCEPT_ENCODING);
+        headers.remove(HEADER_KEY_RANGE);
 
 
         //创建okHttpClient对象
-        OkHttpClient mOkHttpClient = new OkHttpClient();
+        OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new BridgeInterceptor(CookieJar.NO_COOKIES)).build();
 
 
         // 构造Request
@@ -65,11 +71,12 @@ public class OkHttpClientUtil implements HttpClientInterface {
             Response response = call.execute();
 
             ResponseBody responseBody = response.body();
+
             return responseBody == null ? "" : responseBody.string();
 //            if (response.isSuccessful()) {
 //            }
         } catch (Exception e) {
-            logger.error("http请求异常！！！", e);
+            logger.error("okhttp请求异常！！！", e);
             return "";
         }
     }

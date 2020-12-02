@@ -1,10 +1,7 @@
 package com.shotgun.mycommon.base.util;
 
 import com.shotgun.mycommon.base.util.http.OkHttpClientUtil;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import org.apache.commons.text.StringEscapeUtils;
 
 public class HttpUtils {
     /**
@@ -12,12 +9,27 @@ public class HttpUtils {
      */
     public static final OkHttpClientUtil HTTP_CLIENT_OK = new OkHttpClientUtil();
 
-    public static void main(String[] args) throws IOException {
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", "text/plain;charset=UTF-8");
-        headers = null;
 
-        System.out.println(HttpUtils.HTTP_CLIENT_OK.execute("get", "https://www.baidu.com", headers, null));
+    public static void main(String[] args) {
+        //测试请求
+
+        String headers =
+                "POST http://mobile.guangri.net:8082/oa/oa_ehr.nsf/getehrdatanow?OpenWebService " + "HTTP/1"
+                        + ".1\n" + "Accept-Encoding: gzip,deflate\n" + "Content-Type: text/xml;" + "charset"
+                        + "=UTF-8\n" + "SOAPAction: \"\"\n" + "Content-Length: 228\n" + "Host: mobile" +
+                        ".guangri.net:8082\n" + "Connection: Keep-Alive\n" + "User-Agent: " + "Apache" +
+                        "-HttpClient/4.1.1 (java 1.5)\n" + "\n";
+
+        String body = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" " +
+                "xmlns:urn=\"urn:DefaultNamespace\">\n" + "   <soapenv:Header/>\n" + "   <soapenv:Body>\n" + "      <urn:rescon>dept</urn:rescon>\n" + "   </soapenv:Body>\n" + "</soapenv:Envelope>";
+
+        String post = HttpUtils.HTTP_CLIENT_OK
+                .execute("post", "http://mobile.guangri.net:8082/oa/oa_ehr.nsf/getehrdatanow?OpenWebService",
+                        headers, body);
+
+        String s = StringEscapeUtils.unescapeHtml4(post);
+
+        System.out.println(s);
     }
 
 }
