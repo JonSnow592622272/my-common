@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Set;
 
 public interface HttpClientInterface {
+    String UTF8 = "UTF-8";
+
     String GET = "GET";
     String POST = "POST";
 
@@ -141,7 +143,8 @@ public interface HttpClientInterface {
             } else {
                 sb.append("&");
             }
-            sb.append(en.getKey()).append("=").append(URLEncoder.encode(en.getValue(), "UTF-8"));
+            sb.append(URLEncoder.encode(en.getKey(), UTF8)).append("=")
+                    .append(URLEncoder.encode(en.getValue(), UTF8));
         }
         return sb.toString();
     }
@@ -150,7 +153,7 @@ public interface HttpClientInterface {
         Map<String, String> map = new HashMap<>();
         map.put("aa", "张三");
         map.put("bb", "李四");
-        map.put("cc", "王五");
+        map.put("cc王五", "王五");
 
         String s = buildFormString(map);
 
