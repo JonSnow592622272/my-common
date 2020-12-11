@@ -88,7 +88,7 @@ public interface HttpClientInterface {
     String execute(String method, String url, Map<String, String> headers, String body);
 
     default String httpGet(String url) {
-        return execute(GET, url, (Map<String, String>) null, null);
+        return execute(GET, url);
     }
 
     default String httpPostForm(String url, Map<String, String> headers,
