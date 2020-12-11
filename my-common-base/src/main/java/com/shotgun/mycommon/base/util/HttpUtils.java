@@ -3,6 +3,8 @@ package com.shotgun.mycommon.base.util;
 import com.shotgun.mycommon.base.util.http.OkHttpClientUtil;
 import org.apache.commons.text.StringEscapeUtils;
 
+import java.io.IOException;
+
 public class HttpUtils {
     /**
      * LocalDateTime工具
@@ -10,7 +12,7 @@ public class HttpUtils {
     public static final OkHttpClientUtil HTTP_CLIENT_OK = new OkHttpClientUtil();
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //测试请求
 
         String headers =
