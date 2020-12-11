@@ -2,6 +2,7 @@ package com.shotgun.mycommon.base.util.http.api;
 
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Collections;
@@ -28,7 +29,7 @@ public interface HttpClientInterface {
     String HEADER_VAL_CONTENT_TYPE_FORM = "application/x-www-form-urlencoded";
     String HEADER_VAL_CONTENT_TYPE_JSON = "application/json";
 
-    default String execute(String method, String url) {
+    default String execute(String method, String url) throws IOException {
         return execute(method, url, (Map<String, String>) null, null);
     }
 
@@ -43,7 +44,7 @@ public interface HttpClientInterface {
      * @param body    请求体(非必填)，get请求不会传递body
      * @return 返回结果
      **/
-    default String execute(String method, String url, String headers, String body) {
+    default String execute(String method, String url, String headers, String body) throws IOException {
         Map<String, String> headersMap;
 
         if (StringUtils.isEmpty(headers)) {
@@ -85,14 +86,14 @@ public interface HttpClientInterface {
      * @param body    请求体(非必填)，get请求不会传递body
      * @return 返回结果
      **/
-    String execute(String method, String url, Map<String, String> headers, String body);
+    String execute(String method, String url, Map<String, String> headers, String body) throws IOException;
 
-    default String httpGet(String url) {
+    default String httpGet(String url) throws IOException {
         return execute(GET, url);
     }
 
     default String httpPostForm(String url, Map<String, String> headers,
-            Map<String, String> bodyForm) throws UnsupportedEncodingException {
+            Map<String, String> bodyForm) throws IOException {
         String bodyStr;
         if (bodyForm == null || bodyForm.isEmpty()) {
             bodyStr = null;
@@ -104,7 +105,7 @@ public interface HttpClientInterface {
         return httpPostForm(url, headers, bodyStr);
     }
 
-    default String httpPostForm(String url, Map<String, String> headers, String bodyForm) {
+    default String httpPostForm(String url, Map<String, String> headers, String bodyForm) throws IOException {
         if (headers != null && !HEADER_VAL_CONTENT_TYPE_FORM.equals(headers.get(HEADER_KEY_CONTENT_TYPE))) {
             //手动设置Content-Type，进行覆盖为application/x-www-form-urlencoded
             headers.put(HEADER_KEY_CONTENT_TYPE, HEADER_VAL_CONTENT_TYPE_FORM);
@@ -112,7 +113,7 @@ public interface HttpClientInterface {
         return execute(POST, url, headers, bodyForm);
     }
 
-    default String httpPostJson(String url, Map<String, String> headers, String bodyJson) {
+    default String httpPostJson(String url, Map<String, String> headers, String bodyJson) throws IOException {
         if (headers == null) {
             //设置Content-Type为application/json
             headers = Collections.singletonMap(HEADER_KEY_CONTENT_TYPE, HEADER_VAL_CONTENT_TYPE_JSON);

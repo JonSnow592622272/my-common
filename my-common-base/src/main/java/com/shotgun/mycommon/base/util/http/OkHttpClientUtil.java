@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +28,7 @@ public class OkHttpClientUtil implements HttpClientInterface {
 
 
     @Override
-    public String execute(String method, String url, Map<String, String> headers, String body) {
+    public String execute(String method, String url, Map<String, String> headers, String body) throws IOException {
         Assert.notNull(method, "method不能为空!");
         Assert.notNull(url, "url不能为空!");
 
@@ -75,21 +76,16 @@ public class OkHttpClientUtil implements HttpClientInterface {
                 .headers(headers.isEmpty() ? new Headers.Builder().build() : Headers.of(headers))
                 .method(method, requestBody).build();
 
-        try {
-            Call call = okHttpClient.newCall(request);
+        Call call = okHttpClient.newCall(request);
 
-            //发起请求
-            Response response = call.execute();
+        //发起请求
+        Response response = call.execute();
 
-            ResponseBody responseBody = response.body();
+        ResponseBody responseBody = response.body();
 
-            return responseBody == null ? "" : responseBody.string();
+        return responseBody == null ? "" : responseBody.string();
 //            if (response.isSuccessful()) {
 //            }
-        } catch (Exception e) {
-            logger.error("okhttp请求异常！！！", e);
-            return "";
-        }
     }
 
 }
