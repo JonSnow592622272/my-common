@@ -18,6 +18,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public class OkHttpClientUtil implements HttpClientInterface {
@@ -35,7 +36,6 @@ public class OkHttpClientUtil implements HttpClientInterface {
         RequestBody requestBody;
 
         if (GET.equals(method)) {
-            //get请求没有requestBody，不传递body
 
             if (headers == null) {
                 headers = Collections.emptyMap();
@@ -46,9 +46,10 @@ public class OkHttpClientUtil implements HttpClientInterface {
         } else {
             //post和其他处理
 
-            if (headers == null || headers.isEmpty()) {
+            if (headers == null) {
                 //设置默认Content-Type为application/x-www-form-urlencoded
-                headers = Collections.singletonMap(HEADER_KEY_CONTENT_TYPE, HEADER_VAL_CONTENT_TYPE_FORM);
+                headers = new HashMap<>(1);
+                headers.put(HEADER_KEY_CONTENT_TYPE, HEADER_VAL_CONTENT_TYPE_FORM);
             } else if (!headers.containsKey(HEADER_KEY_CONTENT_TYPE)) {
                 //没有Content-Type，设置默认Content-Type为application/x-www-form-urlencoded
                 headers.put(HEADER_KEY_CONTENT_TYPE, HEADER_VAL_CONTENT_TYPE_FORM);
@@ -60,7 +61,7 @@ public class OkHttpClientUtil implements HttpClientInterface {
         //headers和requestBody处理完毕
         //进行公共处理
 
-        //去除Accept-Encoding、Range头部信息，由okhttp3处理gzip，否则无法自动解析gzip压缩内容出现乱码
+        //去除Accept-Encoding、Range头部信息，使用okhttp3处理gzip，否则无法自动解析gzip压缩内容出现乱码
         headers.remove(HEADER_KEY_ACCEPT_ENCODING);
         headers.remove(HEADER_KEY_RANGE);
 
