@@ -1,6 +1,6 @@
-package com.shotgun.mycommon.base.util;
+package com.shotgun.mycommon.base.util.http;
 
-import com.shotgun.mycommon.base.util.http.OkHttpClientUtil;
+import com.shotgun.mycommon.base.util.http.impl.OkHttpClientUtil;
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.IOException;

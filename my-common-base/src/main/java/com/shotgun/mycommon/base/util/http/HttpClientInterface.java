@@ -1,4 +1,4 @@
-package com.shotgun.mycommon.base.util.http.api;
+package com.shotgun.mycommon.base.util.http;
 
 import org.springframework.util.StringUtils;
 

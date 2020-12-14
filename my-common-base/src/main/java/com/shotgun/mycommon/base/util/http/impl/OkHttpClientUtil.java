@@ -1,6 +1,6 @@
-package com.shotgun.mycommon.base.util.http;
+package com.shotgun.mycommon.base.util.http.impl;
 
-import com.shotgun.mycommon.base.util.http.api.HttpClientInterface;
+import com.shotgun.mycommon.base.util.http.HttpClientInterface;
 import okhttp3.Call;
 import okhttp3.CookieJar;
 import okhttp3.Headers;
