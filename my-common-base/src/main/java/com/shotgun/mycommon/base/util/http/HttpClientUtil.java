@@ -17,6 +17,16 @@ public interface HttpClientUtil {
     String POST = "POST";
 
     /**
+     * 默认连接超时时间(秒)
+     */
+    int CONNECT_TIMEOUT = 600;
+
+    /**
+     * 默认读取超时时间(秒)
+     */
+    int READ_TIMEOUT = 600;
+
+    /**
      * 头部信息
      */
     String HEADER_KEY_CONTENT_TYPE = "Content-Type";
