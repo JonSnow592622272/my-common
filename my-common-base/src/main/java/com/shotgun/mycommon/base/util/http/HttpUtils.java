@@ -1,6 +1,6 @@
 package com.shotgun.mycommon.base.util.http;
 
-import com.shotgun.mycommon.base.util.http.impl.OkHttpClientUtil;
+import com.shotgun.mycommon.base.util.http.impl.OkHttpClientUtilImpl;
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.IOException;
@@ -9,7 +9,7 @@ public class HttpUtils {
     /**
      * LocalDateTime工具
      */
-    public static final OkHttpClientUtil HTTP_CLIENT_OK = new OkHttpClientUtil();
+    public static final OkHttpClientUtilImpl HTTP_CLIENT_OK = new OkHttpClientUtilImpl();
 
 
     public static void main(String[] args) throws IOException {

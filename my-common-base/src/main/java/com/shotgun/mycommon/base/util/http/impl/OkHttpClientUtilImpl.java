@@ -1,6 +1,6 @@
 package com.shotgun.mycommon.base.util.http.impl;
 
-import com.shotgun.mycommon.base.util.http.HttpClientInterface;
+import com.shotgun.mycommon.base.util.http.HttpClientUtil;
 import okhttp3.Call;
 import okhttp3.CookieJar;
 import okhttp3.Headers;
@@ -22,9 +22,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OkHttpClientUtil implements HttpClientInterface {
+public class OkHttpClientUtilImpl implements HttpClientUtil {
 
-    private Logger logger = LoggerFactory.getLogger(OkHttpClientUtil.class);
+    private Logger logger = LoggerFactory.getLogger(OkHttpClientUtilImpl.class);
 
 
     @Override

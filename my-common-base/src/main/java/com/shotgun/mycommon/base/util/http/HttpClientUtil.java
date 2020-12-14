@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public interface HttpClientInterface {
+public interface HttpClientUtil {
     String UTF8 = "UTF-8";
 
     String GET = "GET";
