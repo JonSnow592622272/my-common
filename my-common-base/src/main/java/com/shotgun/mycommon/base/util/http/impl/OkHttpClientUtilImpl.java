@@ -21,14 +21,25 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class OkHttpClientUtilImpl implements HttpClientUtil {
 
     private Logger logger = LoggerFactory.getLogger(OkHttpClientUtilImpl.class);
 
+    /**
+     * 默认连接超时时间(秒)
+     */
+    public static final int CONNECT_TIMEOUT = 600;
+
+    /**
+     * 默认读取超时时间(秒)
+     */
+    public static final int READ_TIMEOUT = 600;
 
     @Override
-    public String execute(String method, String url, Map<String, String> headers, String body) throws IOException {
+    public String execute(String method, String url, Map<String, String> headers,
+            String body) throws IOException {
         Assert.notNull(method, "method不能为空!");
         Assert.notNull(url, "url不能为空!");
 
@@ -68,7 +79,9 @@ public class OkHttpClientUtilImpl implements HttpClientUtil {
 
         //创建okHttpClient对象
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(new BridgeInterceptor(CookieJar.NO_COOKIES)).build();
+                .addInterceptor(new BridgeInterceptor(CookieJar.NO_COOKIES))
+                .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS).readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+                .build();
 
 
         // 构造Request
